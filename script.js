@@ -37,23 +37,40 @@ function flashRainbowColors(callback) {
         if (callback) {
             callback();
         }
-    }, 2000); // Flash colors for 2 seconds
+    }, 0); // Flash colors for 2 seconds
 }
 
-// Function to display the cat.gif initially
+// Function to display the rock.gif initially
 function displayCat() {
-    // Get the container where the image will be displayed
+    // Get the container where the images will be displayed
     var imageContainer = document.getElementById('image-container');
-    // Create a new Image element for the cat
-    var catImage = new Image();
-    // Set the source (file path) for the cat image
-    catImage.src = 'cat.gif'; // Assuming the cat image is named "cat.gif"
-    // Set alternative text for the image (for accessibility)
-    catImage.alt = 'Cat';
-    // When the cat image is fully loaded, add it to the image container
-    catImage.onload = function() {
-        imageContainer.appendChild(catImage);
-    };
+    
+    // Create first image element
+    var rockImage = new Image();
+    rockImage.src = 'rock.gif';
+    rockImage.alt = 'Rock';
+    rockImage.style.marginRight = '50px'; // Add some space between images
+    
+    // Create second image element
+    var secondImage = new Image();
+    secondImage.src = 'hmm.gif'; // Your second GIF file
+    secondImage.alt = 'Next';
+    
+    // Create a wrapper div for both images
+    var wrapper = document.createElement('div');
+    wrapper.style.display = 'flex';
+    wrapper.style.justifyContent = 'center';
+    wrapper.style.alignItems = 'center';
+    
+    // When both images are loaded, add them to the wrapper
+    Promise.all([
+        new Promise(resolve => rockImage.onload = resolve),
+        new Promise(resolve => secondImage.onload = resolve)
+    ]).then(() => {
+        wrapper.appendChild(rockImage);
+        wrapper.appendChild(secondImage);
+        imageContainer.appendChild(wrapper);
+    });
 }
 
 // Function to display the cat-heart.gif
